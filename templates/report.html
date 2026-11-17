@@ -1,0 +1,83 @@
+{% extends "app.html" %}
+{% block title %}Report {{ '%04d'|format(p.id) }}{% endblock %}
+{% block content %}
+{% set ad = p.is_ad %}
+<header class="head">
+  <div><p class="crumb"><a href="{{ url_for('main.records') }}">Records</a> / Report {{ '%04d'|format(p.id) }}</p><h1>Scan report</h1></div>
+  <div class="head-btns">
+    <button class="btn btn-line" type="button" data-print>{{ icon('print', 17) }} Print</button>
+    <a class="btn btn-solid" href="{{ url_for('main.scan') }}">{{ icon('plus', 18) }} New scan</a>
+  </div>
+</header>
+
+<section class="outcome {{ 'o-ad' if ad else 'o-clear' }}">
+  <div class="outcome-label">
+    <span class="outcome-ic">{{ icon('alert' if ad else 'check', 26) }}</span>
+    <div><small>Predicted class</small><h2>{{ "Alzheimer's Disease" if ad else "No Alzheimer's Disease" }}</h2></div>
+  </div>
+  <div class="outcome-meter">
+    <div class="meter-head"><span>Class probability</span><strong><b data-n="{{ pct(p.probability) }}">{{ pct(p.probability) }}</b>%</strong></div>
+    <div class="meter" style="--v:{{ p.prob_ad }}" role="img" aria-label="Probability of AD {{ pct(p.prob_ad) }} percent, No AD {{ pct(1 - p.prob_ad) }} percent"><i></i><b></b></div>
+    <div class="meter-scale"><span>No AD {{ pct(1 - p.prob_ad) }}%</span><span>50%</span><span>AD {{ pct(p.prob_ad) }}%</span></div>
+  </div>
+</section>
+
+<div class="tabs" role="tablist" aria-label="Report sections">
+  <button role="tab" id="t-sum" aria-controls="p-sum" aria-selected="true">Summary</button>
+  <button role="tab" id="t-feat" aria-controls="p-feat" aria-selected="false" tabindex="-1">Feature importance</button>
+  <button role="tab" id="t-all" aria-controls="p-all" aria-selected="false" tabindex="-1">All {{ table|length }} values</button>
+</div>
+
+<section class="tabpanel" role="tabpanel" id="p-sum" aria-labelledby="t-sum">
+  <div class="row g-4">
+    <div class="col-md-5 col-xl-4">
+      <figure class="slice"><img src="{{ url_for('main.scan_image', pid=p.id) }}" width="128" height="128" alt="The slice as the model saw it: 128 by 128 pixels, grayscale"><figcaption class="mono">model input · 128 × 128</figcaption></figure>
+    </div>
+    <div class="col-md-7 col-xl-8">
+      <div class="box flat">
+        <dl class="facts">
+          <div><dt>Case reference</dt><dd>{{ p.image.scan_ref or 'Not provided' }}</dd></div>
+          <div><dt>File name</dt><dd>{{ p.image.original_name }}</dd></div>
+          <div><dt>Uploaded size</dt><dd class="mono">{{ p.image.width }} × {{ p.image.height }} px · {{ (p.image.size_bytes / 1024)|round|int }} KB</dd></div>
+          <div><dt>Analysed</dt><dd>{{ p.created_at|when }}</dd></div>
+          <div><dt>Analysed by</dt><dd>{{ user.full_name }}, {{ user.facility }}</dd></div>
+        </dl>
+      </div>
+      <div class="lap">
+        <div><span>Check + prepare</span><b class="mono">{{ timing.preprocess }} ms</b></div>
+        <div><span>Measure features</span><b class="mono">{{ timing.features }} ms</b></div>
+        <div><span>Forest vote</span><b class="mono">{{ timing.predict }} ms</b></div>
+        <div class="sum"><span>Total</span><b class="mono">{{ timing.total }} ms</b></div>
+      </div>
+      <div class="note note-plain">{{ icon('info', 18) }}<span>{% if ad %}This slice's texture and brightness are closer to the Alzheimer's Disease examples used in training.{% else %}This slice's texture and brightness are closer to the non-demented examples used in training.{% endif %} The probability is the averaged vote of {{ M.params.n_estimators }} trees. It is a model output, not a measure of clinical certainty: on unseen test images the model was right {{ pct(M.test.accuracy) }}% of the time. A diagnosis can only come from a qualified clinician.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="tabpanel" role="tabpanel" id="p-feat" aria-labelledby="t-feat" hidden>
+  <div class="box">
+    <header class="box-head"><div><h2>What the forest leans on</h2><p class="dim">Top eight features by importance. The shaded span runs between the average No AD and AD scan; the marker is this scan.</p></div>
+      <ul class="keys inline"><li><i class="sw sw-clear"></i>No AD average</li><li><i class="sw sw-ad"></i>AD average</li><li><i class="sw sw-me"></i>This scan</li></ul></header>
+    <ol class="rank">
+      {% for f in top %}
+      <li>
+        <span class="rank-n mono">{{ '%02d'|format(loop.index) }}</span>
+        <div class="rank-name"><b>{{ f.label }}</b><small>{{ f.group }} · importance {{ '%.1f'|format(f.importance * 100) }}%</small></div>
+        <div class="span-bar big" style="--a:{{ [f.pos_ad, f.pos_no_ad]|min }}%;--b:{{ [f.pos_ad, f.pos_no_ad]|max }}%;--x:{{ f.pos }}%;--pa:{{ f.pos_ad }}%;--pc:{{ f.pos_no_ad }}%" role="img" aria-label="This scan {{ f.value|num }}; No AD average {{ f.mean_no_ad|num }}; AD average {{ f.mean_ad|num }}"><i></i><u class="e-cl"></u><u class="e-ad"></u><b></b></div>
+        <span class="rank-val mono">{{ f.value|num }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+    <p class="fine">Importance is a model-level ranking (mean decrease in impurity across all trees). It does not point to regions of the brain and is not a clinical explanation.</p>
+  </div>
+</section>
+
+<section class="tabpanel" role="tabpanel" id="p-all" aria-labelledby="t-all" hidden>
+  <div class="box">
+    <div class="tbl-wrap tall"><table class="tbl">
+      <thead><tr><th>#</th><th>Feature</th><th>Group</th><th class="num">Value</th><th class="num">Importance</th></tr></thead>
+      <tbody>{% for f in table %}<tr><td class="mono dim">{{ loop.index }}</td><td>{{ f.label }}</td><td class="dim">{{ f.group }}</td><td class="num mono">{{ f.value|num }}</td><td class="num mono">{{ '%.2f'|format(f.importance * 100) }}%</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </div>
+</section>
+{% endblock %}

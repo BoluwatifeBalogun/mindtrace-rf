@@ -1,0 +1,12 @@
+{% extends "public.html" %}
+{% block title %}Error {{ code }}{% endblock %}
+{% block content %}
+<section class="gate">
+  <div class="gate-card">
+    <p class="kicker">Error {{ code }}</p>
+    <h1>Something is off.</h1>
+    <p class="sub">{{ msg }}</p>
+    <a class="btn btn-solid btn-wide" href="{{ url_for('main.overview') if user else url_for('main.landing') }}">Go back {{ icon('right', 17) }}</a>
+  </div>
+</section>
+{% endblock %}

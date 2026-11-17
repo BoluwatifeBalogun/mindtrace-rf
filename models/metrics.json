@@ -1,0 +1,1420 @@
+{
+ "trained_at": "2026-11-17T11:25:40+00:00",
+ "sklearn_version": "1.9.1",
+ "python_version": "3.13.18",
+ "dataset": {
+  "name": "Alzheimer MRI (Falah/Alzheimer_MRI, 4-class, mapped to binary)",
+  "total": 6400,
+  "ad": 3200,
+  "no_ad": 3200,
+  "removed": 0,
+  "stages": {
+   "Non-demented": 3200,
+   "Very mild": 2240,
+   "Mild": 896,
+   "Moderate": 64
+  },
+  "split": {
+   "train": 4480,
+   "validation": 960,
+   "test": 960
+  }
+ },
+ "pipeline": {
+  "image_size": 128,
+  "gray_levels": 32,
+  "distances": [
+   1,
+   2,
+   4
+  ],
+  "angles": [
+   0,
+   45,
+   90,
+   135
+  ],
+  "n_features": 69
+ },
+ "params": {
+  "n_estimators": 400,
+  "max_depth": null,
+  "min_samples_leaf": 1,
+  "max_features": 0.33
+ },
+ "trials": [
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 1,
+   "max_features": "sqrt",
+   "val_accuracy": 0.821875,
+   "val_auc": 0.91140625
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 1,
+   "max_features": 0.33,
+   "val_accuracy": 0.8291666666666667,
+   "val_auc": 0.9168576388888889
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 2,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8260416666666667,
+   "val_auc": 0.9083832465277777
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 2,
+   "max_features": 0.33,
+   "val_accuracy": 0.8302083333333333,
+   "val_auc": 0.9145073784722222
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 4,
+   "max_features": "sqrt",
+   "val_accuracy": 0.7916666666666666,
+   "val_auc": 0.892230902777778
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": null,
+   "min_samples_leaf": 4,
+   "max_features": 0.33,
+   "val_accuracy": 0.8083333333333333,
+   "val_auc": 0.9028645833333334
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 1,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8208333333333333,
+   "val_auc": 0.9054535590277777
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 1,
+   "max_features": 0.33,
+   "val_accuracy": 0.828125,
+   "val_auc": 0.9159288194444444
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 2,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8145833333333333,
+   "val_auc": 0.9029861111111112
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 2,
+   "max_features": 0.33,
+   "val_accuracy": 0.821875,
+   "val_auc": 0.9095138888888888
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 4,
+   "max_features": "sqrt",
+   "val_accuracy": 0.79375,
+   "val_auc": 0.8936588541666667
+  },
+  {
+   "n_estimators": 200,
+   "max_depth": 16,
+   "min_samples_leaf": 4,
+   "max_features": 0.33,
+   "val_accuracy": 0.809375,
+   "val_auc": 0.9044748263888889
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 1,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8291666666666667,
+   "val_auc": 0.9137174479166666
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 1,
+   "max_features": 0.33,
+   "val_accuracy": 0.8333333333333334,
+   "val_auc": 0.9176280381944444
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 2,
+   "max_features": "sqrt",
+   "val_accuracy": 0.828125,
+   "val_auc": 0.9102690972222223
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 2,
+   "max_features": 0.33,
+   "val_accuracy": 0.828125,
+   "val_auc": 0.9146527777777778
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 4,
+   "max_features": "sqrt",
+   "val_accuracy": 0.7927083333333333,
+   "val_auc": 0.8951215277777778
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": null,
+   "min_samples_leaf": 4,
+   "max_features": 0.33,
+   "val_accuracy": 0.809375,
+   "val_auc": 0.9037413194444444
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 1,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8229166666666666,
+   "val_auc": 0.9086024305555556
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 1,
+   "max_features": 0.33,
+   "val_accuracy": 0.8260416666666667,
+   "val_auc": 0.9151519097222223
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 2,
+   "max_features": "sqrt",
+   "val_accuracy": 0.8145833333333333,
+   "val_auc": 0.9037673611111111
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 2,
+   "max_features": 0.33,
+   "val_accuracy": 0.8229166666666666,
+   "val_auc": 0.9110069444444446
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 4,
+   "max_features": "sqrt",
+   "val_accuracy": 0.7927083333333333,
+   "val_auc": 0.8936588541666666
+  },
+  {
+   "n_estimators": 400,
+   "max_depth": 16,
+   "min_samples_leaf": 4,
+   "max_features": 0.33,
+   "val_accuracy": 0.8072916666666666,
+   "val_auc": 0.9032638888888889
+  }
+ ],
+ "train_accuracy": 1.0,
+ "validation": {
+  "accuracy": 0.8333333333333334,
+  "roc_auc": 0.9176280381944444
+ },
+ "cv": {
+  "folds": 5,
+  "mean": 0.8276785714285714,
+  "std": 0.015050006991997836,
+  "scores": [
+   0.8493303571428571,
+   0.8258928571428571,
+   0.8024553571428571,
+   0.828125,
+   0.8325892857142857
+  ]
+ },
+ "test": {
+  "accuracy": 0.8166666666666667,
+  "precision": 0.7835820895522388,
+  "recall": 0.875,
+  "f1": 0.8267716535433071,
+  "specificity": 0.7583333333333333,
+  "roc_auc": 0.9055013020833333,
+  "confusion": {
+   "tp": 420,
+   "tn": 364,
+   "fp": 116,
+   "fn": 60
+  }
+ },
+ "by_stage": [
+  {
+   "stage": "Non-demented",
+   "n": 480,
+   "correct": 364
+  },
+  {
+   "stage": "Very mild",
+   "n": 336,
+   "correct": 278
+  },
+  {
+   "stage": "Mild",
+   "n": 135,
+   "correct": 133
+  },
+  {
+   "stage": "Moderate",
+   "n": 9,
+   "correct": 9
+  }
+ ],
+ "roc": {
+  "fpr": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.00625,
+   0.008333333333333333,
+   0.010416666666666666,
+   0.010416666666666666,
+   0.0125,
+   0.01875,
+   0.020833333333333332,
+   0.027083333333333334,
+   0.03125,
+   0.0375,
+   0.041666666666666664,
+   0.05416666666666667,
+   0.05625,
+   0.06666666666666667,
+   0.075,
+   0.07916666666666666,
+   0.08958333333333333,
+   0.09375,
+   0.10208333333333333,
+   0.11041666666666666,
+   0.12083333333333333,
+   0.13125,
+   0.14583333333333334,
+   0.15833333333333333,
+   0.175,
+   0.18541666666666667,
+   0.20833333333333334,
+   0.225,
+   0.23333333333333334,
+   0.24375,
+   0.25,
+   0.2708333333333333,
+   0.2833333333333333,
+   0.29791666666666666,
+   0.31875,
+   0.33125,
+   0.35,
+   0.3625,
+   0.3770833333333333,
+   0.39166666666666666,
+   0.4041666666666667,
+   0.42291666666666666,
+   0.45625,
+   0.48333333333333334,
+   0.5020833333333333,
+   0.53125,
+   0.55,
+   0.5729166666666666,
+   0.5958333333333333,
+   0.6208333333333333,
+   0.6416666666666667,
+   0.65,
+   0.6645833333333333,
+   0.6770833333333334,
+   0.7020833333333333,
+   0.7208333333333333,
+   0.7395833333333334,
+   0.7791666666666667,
+   0.7958333333333333,
+   0.8208333333333333,
+   0.8791666666666667,
+   0.9270833333333334,
+   1.0
+  ],
+  "tpr": [
+   0.0,
+   0.035416666666666666,
+   0.06041666666666667,
+   0.09583333333333334,
+   0.13333333333333333,
+   0.1625,
+   0.20208333333333334,
+   0.2375,
+   0.26875,
+   0.30416666666666664,
+   0.32708333333333334,
+   0.36041666666666666,
+   0.39375,
+   0.425,
+   0.4625,
+   0.4895833333333333,
+   0.5208333333333334,
+   0.54375,
+   0.56875,
+   0.5875,
+   0.6125,
+   0.6270833333333333,
+   0.6583333333333333,
+   0.6916666666666667,
+   0.7104166666666667,
+   0.725,
+   0.75,
+   0.7708333333333334,
+   0.78125,
+   0.7916666666666666,
+   0.8145833333333333,
+   0.8229166666666666,
+   0.8416666666666667,
+   0.8479166666666667,
+   0.8604166666666667,
+   0.8708333333333333,
+   0.8833333333333333,
+   0.89375,
+   0.9,
+   0.9145833333333333,
+   0.91875,
+   0.9208333333333333,
+   0.9291666666666667,
+   0.9354166666666667,
+   0.9395833333333333,
+   0.9416666666666667,
+   0.95,
+   0.9541666666666667,
+   0.9583333333333334,
+   0.9604166666666667,
+   0.9604166666666667,
+   0.9604166666666667,
+   0.9625,
+   0.96875,
+   0.975,
+   0.975,
+   0.975,
+   0.9770833333333333,
+   0.98125,
+   0.9875,
+   0.99375,
+   0.99375,
+   0.9979166666666667,
+   0.9979166666666667,
+   0.9979166666666667,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ]
+ },
+ "feature_names": [
+  "glcm_contrast_d1",
+  "glcmdir_contrast_d1",
+  "glcm_dissimilarity_d1",
+  "glcmdir_dissimilarity_d1",
+  "glcm_homogeneity_d1",
+  "glcmdir_homogeneity_d1",
+  "glcm_energy_d1",
+  "glcmdir_energy_d1",
+  "glcm_correlation_d1",
+  "glcmdir_correlation_d1",
+  "glcm_asm_d1",
+  "glcmdir_asm_d1",
+  "glcm_entropy_d1",
+  "glcmdir_entropy_d1",
+  "glcm_contrast_d2",
+  "glcmdir_contrast_d2",
+  "glcm_dissimilarity_d2",
+  "glcmdir_dissimilarity_d2",
+  "glcm_homogeneity_d2",
+  "glcmdir_homogeneity_d2",
+  "glcm_energy_d2",
+  "glcmdir_energy_d2",
+  "glcm_correlation_d2",
+  "glcmdir_correlation_d2",
+  "glcm_asm_d2",
+  "glcmdir_asm_d2",
+  "glcm_entropy_d2",
+  "glcmdir_entropy_d2",
+  "glcm_contrast_d4",
+  "glcmdir_contrast_d4",
+  "glcm_dissimilarity_d4",
+  "glcmdir_dissimilarity_d4",
+  "glcm_homogeneity_d4",
+  "glcmdir_homogeneity_d4",
+  "glcm_energy_d4",
+  "glcmdir_energy_d4",
+  "glcm_correlation_d4",
+  "glcmdir_correlation_d4",
+  "glcm_asm_d4",
+  "glcmdir_asm_d4",
+  "glcm_entropy_d4",
+  "glcmdir_entropy_d4",
+  "int_mean",
+  "int_std",
+  "int_skewness",
+  "int_kurtosis",
+  "int_median",
+  "int_p10",
+  "int_p90",
+  "int_iqr",
+  "int_entropy",
+  "int_tissue_fraction",
+  "int_bright_fraction",
+  "hist_bin01",
+  "hist_bin02",
+  "hist_bin03",
+  "hist_bin04",
+  "hist_bin05",
+  "hist_bin06",
+  "hist_bin07",
+  "hist_bin08",
+  "hist_bin09",
+  "hist_bin10",
+  "hist_bin11",
+  "hist_bin12",
+  "hist_bin13",
+  "hist_bin14",
+  "hist_bin15",
+  "hist_bin16"
+ ],
+ "feature_importance": [
+  {
+   "name": "hist_bin02",
+   "label": "Share of pixels in gray 35 to 50",
+   "group": "Intensity",
+   "importance": 0.08299450798434932,
+   "permutation": 0.016458333333333307
+  },
+  {
+   "name": "hist_bin03",
+   "label": "Share of pixels in gray 50 to 64",
+   "group": "Intensity",
+   "importance": 0.06575536719120487,
+   "permutation": 0.01604166666666664
+  },
+  {
+   "name": "int_kurtosis",
+   "label": "Kurtosis",
+   "group": "Intensity",
+   "importance": 0.04624934452649823,
+   "permutation": 0.009999999999999964
+  },
+  {
+   "name": "int_p10",
+   "label": "10th percentile",
+   "group": "Intensity",
+   "importance": 0.0432308283173079,
+   "permutation": 0.0031249999999999776
+  },
+  {
+   "name": "hist_bin04",
+   "label": "Share of pixels in gray 64 to 79",
+   "group": "Intensity",
+   "importance": 0.036838816889019535,
+   "permutation": 0.005208333333333326
+  },
+  {
+   "name": "hist_bin08",
+   "label": "Share of pixels in gray 123 to 138",
+   "group": "Intensity",
+   "importance": 0.02793712960096238,
+   "permutation": 0.0039583333333333085
+  },
+  {
+   "name": "int_skewness",
+   "label": "Skewness",
+   "group": "Intensity",
+   "importance": 0.02222147542719765,
+   "permutation": 0.006458333333333321
+  },
+  {
+   "name": "hist_bin07",
+   "label": "Share of pixels in gray 108 to 123",
+   "group": "Intensity",
+   "importance": 0.02085959869166849,
+   "permutation": 0.0043749999999999735
+  },
+  {
+   "name": "hist_bin13",
+   "label": "Share of pixels in gray 197 to 212",
+   "group": "Intensity",
+   "importance": 0.020148007199937805,
+   "permutation": 0.005624999999999969
+  },
+  {
+   "name": "hist_bin01",
+   "label": "Share of pixels in gray 20 to 35",
+   "group": "Intensity",
+   "importance": 0.019005293433767,
+   "permutation": -0.0008333333333333526
+  },
+  {
+   "name": "int_mean",
+   "label": "Mean intensity",
+   "group": "Intensity",
+   "importance": 0.018409686191725925,
+   "permutation": -0.0006250000000000311
+  },
+  {
+   "name": "glcmdir_homogeneity_d1",
+   "label": "Homogeneity directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.016906318367954656,
+   "permutation": -0.0014583333333333393
+  },
+  {
+   "name": "hist_bin09",
+   "label": "Share of pixels in gray 138 to 153",
+   "group": "Intensity",
+   "importance": 0.015409063253918257,
+   "permutation": 0.0008333333333333081
+  },
+  {
+   "name": "hist_bin05",
+   "label": "Share of pixels in gray 79 to 94",
+   "group": "Intensity",
+   "importance": 0.015309911551930726,
+   "permutation": 0.001041666666666652
+  },
+  {
+   "name": "hist_bin12",
+   "label": "Share of pixels in gray 182 to 197",
+   "group": "Intensity",
+   "importance": 0.015242932229961129,
+   "permutation": 0.003750000000000009
+  },
+  {
+   "name": "glcmdir_homogeneity_d4",
+   "label": "Homogeneity directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.015170835078931428,
+   "permutation": 0.0012499999999999512
+  },
+  {
+   "name": "glcm_correlation_d2",
+   "label": "Correlation \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.014787273241900134,
+   "permutation": -0.0029166666666667006
+  },
+  {
+   "name": "int_entropy",
+   "label": "Histogram entropy",
+   "group": "Intensity",
+   "importance": 0.014718510532073332,
+   "permutation": 0.0014583333333333171
+  },
+  {
+   "name": "glcm_correlation_d1",
+   "label": "Correlation \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.01465194855738798,
+   "permutation": -0.0010416666666666964
+  },
+  {
+   "name": "glcmdir_entropy_d2",
+   "label": "Entropy directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.014544796490984481,
+   "permutation": 0.002291666666666625
+  },
+  {
+   "name": "hist_bin11",
+   "label": "Share of pixels in gray 168 to 182",
+   "group": "Intensity",
+   "importance": 0.014509657951255079,
+   "permutation": 0.0018749999999999821
+  },
+  {
+   "name": "glcmdir_entropy_d4",
+   "label": "Entropy directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.014235829991278799,
+   "permutation": -0.0006250000000000089
+  },
+  {
+   "name": "hist_bin10",
+   "label": "Share of pixels in gray 153 to 168",
+   "group": "Intensity",
+   "importance": 0.013911822702494643,
+   "permutation": 0.0043749999999999735
+  },
+  {
+   "name": "glcm_correlation_d4",
+   "label": "Correlation \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.013782204118954235,
+   "permutation": 0.0006249999999999867
+  },
+  {
+   "name": "glcmdir_homogeneity_d2",
+   "label": "Homogeneity directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.0133659725748091,
+   "permutation": 0.00020833333333329928
+  },
+  {
+   "name": "glcmdir_entropy_d1",
+   "label": "Entropy directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.01320932566222686,
+   "permutation": -4.4408920985006264e-17
+  },
+  {
+   "name": "glcmdir_correlation_d4",
+   "label": "Correlation directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.012895003522166017,
+   "permutation": -0.0025000000000000135
+  },
+  {
+   "name": "hist_bin06",
+   "label": "Share of pixels in gray 94 to 108",
+   "group": "Intensity",
+   "importance": 0.012320593027697049,
+   "permutation": 0.0006249999999999645
+  },
+  {
+   "name": "glcmdir_asm_d4",
+   "label": "Angular second moment directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.011733502701972688,
+   "permutation": -0.004791666666666661
+  },
+  {
+   "name": "glcmdir_dissimilarity_d4",
+   "label": "Dissimilarity directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.011594336641532805,
+   "permutation": 0.0014583333333332948
+  },
+  {
+   "name": "int_bright_fraction",
+   "label": "Bright-pixel fraction",
+   "group": "Intensity",
+   "importance": 0.011532721191102603,
+   "permutation": -2.2204460492503132e-17
+  },
+  {
+   "name": "hist_bin14",
+   "label": "Share of pixels in gray 212 to 226",
+   "group": "Intensity",
+   "importance": 0.011520648326154292,
+   "permutation": 0.003749999999999987
+  },
+  {
+   "name": "glcmdir_correlation_d1",
+   "label": "Correlation directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.011205141437892582,
+   "permutation": -0.0002083333333333659
+  },
+  {
+   "name": "hist_bin15",
+   "label": "Share of pixels in gray 226 to 241",
+   "group": "Intensity",
+   "importance": 0.010847900753443118,
+   "permutation": -0.002291666666666692
+  },
+  {
+   "name": "glcmdir_contrast_d4",
+   "label": "Contrast directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.010753090782309186,
+   "permutation": 0.0014583333333332948
+  },
+  {
+   "name": "glcm_contrast_d4",
+   "label": "Contrast \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.010718758284359598,
+   "permutation": -0.0016666666666667052
+  },
+  {
+   "name": "glcmdir_asm_d2",
+   "label": "Angular second moment directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.01067380055457338,
+   "permutation": -0.0002083333333333437
+  },
+  {
+   "name": "glcmdir_energy_d1",
+   "label": "Energy directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.010665698231628896,
+   "permutation": -0.00125000000000004
+  },
+  {
+   "name": "hist_bin16",
+   "label": "Share of pixels in gray 241 to 256",
+   "group": "Intensity",
+   "importance": 0.010609031536678797,
+   "permutation": -0.0006250000000000311
+  },
+  {
+   "name": "glcmdir_asm_d1",
+   "label": "Angular second moment directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.010253139090165297,
+   "permutation": -0.0012500000000000178
+  },
+  {
+   "name": "glcmdir_dissimilarity_d2",
+   "label": "Dissimilarity directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.010063681903120469,
+   "permutation": 0.000833333333333286
+  },
+  {
+   "name": "glcm_contrast_d1",
+   "label": "Contrast \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.010009526925951221,
+   "permutation": -0.0004166666666666874
+  },
+  {
+   "name": "glcm_homogeneity_d2",
+   "label": "Homogeneity \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.009986410969063659,
+   "permutation": 0.002499999999999991
+  },
+  {
+   "name": "glcmdir_contrast_d2",
+   "label": "Contrast directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.009755777766509917,
+   "permutation": 0.004583333333333317
+  },
+  {
+   "name": "glcmdir_energy_d2",
+   "label": "Energy directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.009343814830510784,
+   "permutation": -0.0004166666666667096
+  },
+  {
+   "name": "glcmdir_energy_d4",
+   "label": "Energy directional spread \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.009327595741375658,
+   "permutation": 0.000416666666666643
+  },
+  {
+   "name": "glcmdir_contrast_d1",
+   "label": "Contrast directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.009194391437138058,
+   "permutation": -0.0006250000000000311
+  },
+  {
+   "name": "glcmdir_correlation_d2",
+   "label": "Correlation directional spread \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.009105918641207394,
+   "permutation": 0.002083333333333304
+  },
+  {
+   "name": "int_std",
+   "label": "Intensity spread (std)",
+   "group": "Intensity",
+   "importance": 0.00907028918013117,
+   "permutation": -0.002083333333333326
+  },
+  {
+   "name": "glcm_homogeneity_d1",
+   "label": "Homogeneity \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.009009189120886829,
+   "permutation": -0.001041666666666674
+  },
+  {
+   "name": "glcmdir_dissimilarity_d1",
+   "label": "Dissimilarity directional spread \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.00871219273834624,
+   "permutation": -0.0016666666666667052
+  },
+  {
+   "name": "glcm_dissimilarity_d4",
+   "label": "Dissimilarity \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.008644430269431012,
+   "permutation": -0.0002083333333333437
+  },
+  {
+   "name": "glcm_dissimilarity_d1",
+   "label": "Dissimilarity \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.00827296404520497,
+   "permutation": 0.0008333333333333081
+  },
+  {
+   "name": "glcm_contrast_d2",
+   "label": "Contrast \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.008160352041428832,
+   "permutation": 0.0006249999999999645
+  },
+  {
+   "name": "int_iqr",
+   "label": "Interquartile range",
+   "group": "Intensity",
+   "importance": 0.007964969552569293,
+   "permutation": 0.0002083333333333215
+  },
+  {
+   "name": "glcm_dissimilarity_d2",
+   "label": "Dissimilarity \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.007926981140170652,
+   "permutation": -0.002083333333333348
+  },
+  {
+   "name": "int_median",
+   "label": "Median intensity",
+   "group": "Intensity",
+   "importance": 0.007875482376469583,
+   "permutation": 0.000833333333333286
+  },
+  {
+   "name": "glcm_homogeneity_d4",
+   "label": "Homogeneity \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.007718674457169772,
+   "permutation": -0.0012500000000000178
+  },
+  {
+   "name": "int_tissue_fraction",
+   "label": "Tissue area fraction",
+   "group": "Intensity",
+   "importance": 0.006479357357331156,
+   "permutation": -0.0027083333333333347
+  },
+  {
+   "name": "int_p90",
+   "label": "90th percentile",
+   "group": "Intensity",
+   "importance": 0.006151851390343499,
+   "permutation": -0.0002083333333333659
+  },
+  {
+   "name": "glcm_entropy_d4",
+   "label": "Entropy \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.005851717212143257,
+   "permutation": -0.001666666666666683
+  },
+  {
+   "name": "glcm_entropy_d1",
+   "label": "Entropy \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.005808407528953612,
+   "permutation": -0.0027083333333333794
+  },
+  {
+   "name": "glcm_entropy_d2",
+   "label": "Entropy \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.0055214818187226365,
+   "permutation": -0.001041666666666674
+  },
+  {
+   "name": "glcm_asm_d1",
+   "label": "Angular second moment \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.005194602877504642,
+   "permutation": -0.0018750000000000045
+  },
+  {
+   "name": "glcm_asm_d4",
+   "label": "Angular second moment \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.005045091176762376,
+   "permutation": -0.0012500000000000178
+  },
+  {
+   "name": "glcm_energy_d4",
+   "label": "Energy \u00b7 4 px",
+   "group": "GLCM texture",
+   "importance": 0.004994248053978711,
+   "permutation": -0.0012500000000000178
+  },
+  {
+   "name": "glcm_energy_d1",
+   "label": "Energy \u00b7 1 px",
+   "group": "GLCM texture",
+   "importance": 0.004917528626042341,
+   "permutation": -0.0029166666666667006
+  },
+  {
+   "name": "glcm_asm_d2",
+   "label": "Angular second moment \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.0046627396983369325,
+   "permutation": -0.0004166666666666874
+  },
+  {
+   "name": "glcm_energy_d2",
+   "label": "Energy \u00b7 2 px",
+   "group": "GLCM texture",
+   "importance": 0.004500507281819165,
+   "permutation": -0.0029166666666666785
+  }
+ ],
+ "group_importance": {
+  "GLCM texture": 0.4128752016328073,
+  "Intensity": 0.5871247983671928
+ },
+ "class_means": {
+  "ad": {
+   "glcm_contrast_d1": 8.305677620918566,
+   "glcmdir_contrast_d1": 5.400404560756109,
+   "glcm_dissimilarity_d1": 1.4809576782379015,
+   "glcmdir_dissimilarity_d1": 0.521068963789712,
+   "glcm_homogeneity_d1": 0.6583760948494086,
+   "glcmdir_homogeneity_d1": 0.04363069417270882,
+   "glcm_energy_d1": 0.4795402023088682,
+   "glcmdir_energy_d1": 0.007277678180271648,
+   "glcm_correlation_d1": 0.9596578568549518,
+   "glcmdir_correlation_d1": 0.026091382288791078,
+   "glcm_asm_d1": 0.23023889725685973,
+   "glcmdir_asm_d1": 0.006972516367553976,
+   "glcm_entropy_d1": 5.377588148934284,
+   "glcmdir_entropy_d1": 0.26932722399173564,
+   "glcm_contrast_d2": 22.33290184687465,
+   "glcmdir_contrast_d2": 11.502637158999278,
+   "glcm_dissimilarity_d2": 2.5320672981545904,
+   "glcmdir_dissimilarity_d2": 0.7414910344511496,
+   "glcm_homogeneity_d2": 0.5952851771264367,
+   "glcmdir_homogeneity_d2": 0.03848954604346729,
+   "glcm_energy_d2": 0.4656758006347276,
+   "glcmdir_energy_d2": 0.014656081049257327,
+   "glcm_correlation_d2": 0.8920937274973014,
+   "glcmdir_correlation_d2": 0.05497296870809546,
+   "glcm_asm_d2": 0.217179781941595,
+   "glcmdir_asm_d2": 0.01363656136365498,
+   "glcm_entropy_d2": 5.793992175832305,
+   "glcmdir_entropy_d2": 0.26388983223996876,
+   "glcm_contrast_d4": 45.88061599153027,
+   "glcmdir_contrast_d4": 17.057671584731427,
+   "glcm_dissimilarity_d4": 3.8834537787938594,
+   "glcmdir_dissimilarity_d4": 0.9572650381479262,
+   "glcm_homogeneity_d4": 0.5334358713008431,
+   "glcmdir_homogeneity_d4": 0.05120685227436198,
+   "glcm_energy_d4": 0.43685838338060085,
+   "glcmdir_energy_d4": 0.030548982625163947,
+   "glcm_correlation_d4": 0.7801203554822614,
+   "glcmdir_correlation_d4": 0.07977829174970756,
+   "glcm_asm_d4": 0.19136131106199583,
+   "glcmdir_asm_d4": 0.02667547088693072,
+   "glcm_entropy_d4": 6.210662409206134,
+   "glcmdir_entropy_d4": 0.3267360819088918,
+   "int_mean": 140.00943209608567,
+   "int_std": 62.743258877589156,
+   "int_skewness": -0.2585957670745197,
+   "int_kurtosis": -1.1421100678136484,
+   "int_median": 146.6107142857143,
+   "int_p10": 45.88357142857145,
+   "int_p90": 218.22888392857138,
+   "int_iqr": 110.01462053571429,
+   "int_entropy": 7.626777722237709,
+   "int_tissue_fraction": 0.4983837672642299,
+   "int_bright_fraction": 0.18797310420445035,
+   "hist_bin01": 0.060910153910463234,
+   "hist_bin02": 0.06290581108843293,
+   "hist_bin03": 0.050725564899659285,
+   "hist_bin04": 0.048158923527202746,
+   "hist_bin05": 0.05222131007984785,
+   "hist_bin06": 0.05531627598932437,
+   "hist_bin07": 0.06251444317849211,
+   "hist_bin08": 0.06515351073944267,
+   "hist_bin09": 0.07599879281621261,
+   "hist_bin10": 0.07392843989719151,
+   "hist_bin11": 0.07129070453497338,
+   "hist_bin12": 0.06596174477078659,
+   "hist_bin13": 0.08250290888868007,
+   "hist_bin14": 0.10476734326343674,
+   "hist_bin15": 0.060428574477742435,
+   "hist_bin16": 0.007215497938111808
+  },
+  "no_ad": {
+   "glcm_contrast_d1": 7.863670672169043,
+   "glcmdir_contrast_d1": 5.107946235340014,
+   "glcm_dissimilarity_d1": 1.4321852508520871,
+   "glcmdir_dissimilarity_d1": 0.5091853209655085,
+   "glcm_homogeneity_d1": 0.6635621527071687,
+   "glcmdir_homogeneity_d1": 0.044918240729478746,
+   "glcm_energy_d1": 0.4799786199639289,
+   "glcmdir_energy_d1": 0.007302139947453706,
+   "glcm_correlation_d1": 0.9647759239876943,
+   "glcmdir_correlation_d1": 0.0228036791074823,
+   "glcm_asm_d1": 0.23067106164167983,
+   "glcmdir_asm_d1": 0.0070026591791732835,
+   "glcm_entropy_d1": 5.329636122991639,
+   "glcmdir_entropy_d1": 0.27056691892102885,
+   "glcm_contrast_d2": 21.18586473409014,
+   "glcmdir_contrast_d2": 10.984771653163557,
+   "glcm_dissimilarity_d2": 2.452705155981459,
+   "glcmdir_dissimilarity_d2": 0.7276929660856571,
+   "glcm_homogeneity_d2": 0.5999338956938285,
+   "glcmdir_homogeneity_d2": 0.03842648407070681,
+   "glcm_energy_d2": 0.4660699474744548,
+   "glcmdir_energy_d2": 0.014670383048902067,
+   "glcm_correlation_d2": 0.9054686086872912,
+   "glcmdir_correlation_d2": 0.04860856400697586,
+   "glcm_asm_d2": 0.2175582478443559,
+   "glcmdir_asm_d2": 0.013661334794544306,
+   "glcm_entropy_d2": 5.7442187165622824,
+   "glcmdir_entropy_d2": 0.2636237621867359,
+   "glcm_contrast_d4": 44.01994851924553,
+   "glcmdir_contrast_d4": 16.625931338234693,
+   "glcm_dissimilarity_d4": 3.7802288837413056,
+   "glcmdir_dissimilarity_d4": 0.9374477331468565,
+   "glcm_homogeneity_d4": 0.5378805030365335,
+   "glcmdir_homogeneity_d4": 0.050655268296947546,
+   "glcm_energy_d4": 0.4372181940848192,
+   "glcmdir_energy_d4": 0.030562379723574777,
+   "glcm_correlation_d4": 0.8048158406409814,
+   "glcmdir_correlation_d4": 0.07227010992829415,
+   "glcm_asm_d4": 0.19168722588497436,
+   "glcmdir_asm_d4": 0.026708542802176605,
+   "glcm_entropy_d4": 6.16041298949268,
+   "glcmdir_entropy_d4": 0.3232414236556249,
+   "int_mean": 150.02573165268913,
+   "int_std": 60.52509322944545,
+   "int_skewness": -0.3613344114183154,
+   "int_kurtosis": -0.9612814679274679,
+   "int_median": 156.15066964285714,
+   "int_p10": 59.550669642857144,
+   "int_p90": 223.60763392857146,
+   "int_iqr": 102.04207589285714,
+   "int_entropy": 7.59191169817364,
+   "int_tissue_fraction": 0.49868597303118023,
+   "int_bright_fraction": 0.2110948017665318,
+   "hist_bin01": 0.040717242462924415,
+   "hist_bin02": 0.0444878139296385,
+   "hist_bin03": 0.03938599705355629,
+   "hist_bin04": 0.03984028038041262,
+   "hist_bin05": 0.04667714969001654,
+   "hist_bin06": 0.0549946462242862,
+   "hist_bin07": 0.06926021635766852,
+   "hist_bin08": 0.07297176894432808,
+   "hist_bin09": 0.07926406534812985,
+   "hist_bin10": 0.07374849708166951,
+   "hist_bin11": 0.07043584309828987,
+   "hist_bin12": 0.0653205642325091,
+   "hist_bin13": 0.08125049959131073,
+   "hist_bin14": 0.11811871070987903,
+   "hist_bin15": 0.09277382492879752,
+   "hist_bin16": 0.0107528799665826
+  }
+ },
+ "feature_range": {
+  "glcm_contrast_d1": [
+   4.7311636599835705,
+   10.347269899617924
+  ],
+  "glcmdir_contrast_d1": [
+   2.865690807319115,
+   7.085513051026102
+  ],
+  "glcm_dissimilarity_d1": [
+   1.109314096987569,
+   1.6894904776528303
+  ],
+  "glcmdir_dissimilarity_d1": [
+   0.37250572532395043,
+   0.6371098932822866
+  ],
+  "glcm_homogeneity_d1": [
+   0.6316277877874938,
+   0.7097971707856725
+  ],
+  "glcmdir_homogeneity_d1": [
+   0.03645833270292821,
+   0.05433930677571178
+  ],
+  "glcm_energy_d1": [
+   0.46151850120168864,
+   0.5180917724607513
+  ],
+  "glcmdir_energy_d1": [
+   0.006471152250762895,
+   0.007878764049169177
+  ],
+  "glcm_correlation_d1": [
+   0.9465999681065264,
+   0.9757354999305735
+  ],
+  "glcmdir_correlation_d1": [
+   0.015053028128490673,
+   0.035616828583574914
+  ],
+  "glcm_asm_d1": [
+   0.21301087885840156,
+   0.26842942665025343
+  ],
+  "glcmdir_asm_d1": [
+   0.006459152087806296,
+   0.0074563065663142475
+  ],
+  "glcm_entropy_d1": [
+   4.784729732131414,
+   5.636494148588579
+  ],
+  "glcmdir_entropy_d1": [
+   0.22544405885608196,
+   0.3180200221750977
+  ],
+  "glcm_contrast_d2": [
+   12.235743722836355,
+   27.58542836376449
+  ],
+  "glcmdir_contrast_d2": [
+   5.854104269022422,
+   15.364742102859667
+  ],
+  "glcm_dissimilarity_d2": [
+   1.8742926232993196,
+   2.870677280171328
+  ],
+  "glcmdir_dissimilarity_d2": [
+   0.524522471025447,
+   0.9296252598261531
+  ],
+  "glcm_homogeneity_d2": [
+   0.5676401370502722,
+   0.6519094856947832
+  ],
+  "glcmdir_homogeneity_d2": [
+   0.031648203168378214,
+   0.04682867670539713
+  ],
+  "glcm_energy_d2": [
+   0.4477038502958806,
+   0.5047018326942074
+  ],
+  "glcmdir_energy_d2": [
+   0.013246636582211084,
+   0.015627067256549776
+  ],
+  "glcm_correlation_d2": [
+   0.8591069486995999,
+   0.9335531640820683
+  ],
+  "glcmdir_correlation_d2": [
+   0.03306228548351873,
+   0.07431206298600931
+  ],
+  "glcm_asm_d2": [
+   0.20048982188064565,
+   0.2547666809902171
+  ],
+  "glcmdir_asm_d2": [
+   0.013086102033896554,
+   0.014181649792953119
+  ],
+  "glcm_entropy_d2": [
+   5.160674639031328,
+   6.062398419880385
+  ],
+  "glcmdir_entropy_d2": [
+   0.22738099792795796,
+   0.30332873717005676
+  ],
+  "glcm_contrast_d4": [
+   24.284950257300338,
+   56.10331240651014
+  ],
+  "glcmdir_contrast_d4": [
+   9.002581173582202,
+   22.18246036843132
+  ],
+  "glcm_dissimilarity_d4": [
+   2.8631478846904264,
+   4.379612230505333
+  ],
+  "glcmdir_dissimilarity_d4": [
+   0.6853854220863683,
+   1.1715258357180018
+  ],
+  "glcm_homogeneity_d4": [
+   0.5056173156185528,
+   0.5961037994776289
+  ],
+  "glcmdir_homogeneity_d4": [
+   0.04284067044080031,
+   0.05995575606257992
+  ],
+  "glcm_energy_d4": [
+   0.4185429291336236,
+   0.47726056778918885
+  ],
+  "glcmdir_energy_d4": [
+   0.027885139831261528,
+   0.032036027148623664
+  ],
+  "glcm_correlation_d4": [
+   0.7204429819306867,
+   0.8604910665789195
+  ],
+  "glcmdir_correlation_d4": [
+   0.052687263893747054,
+   0.10164614014814878
+  ],
+  "glcm_asm_d4": [
+   0.175412347960917,
+   0.22796695968535807
+  ],
+  "glcmdir_asm_d4": [
+   0.02605746193690789,
+   0.02730199135767351
+  ],
+  "glcm_entropy_d4": [
+   5.537129077861195,
+   6.487209665954864
+  ],
+  "glcmdir_entropy_d4": [
+   0.29650133797618616,
+   0.3562539132673512
+  ],
+  "int_mean": [
+   107.95654897660634,
+   173.28903143691556
+  ],
+  "int_std": [
+   43.77435678685733,
+   72.86901184942181
+  ],
+  "int_skewness": [
+   -0.6600370148135137,
+   0.01900966273657136
+  ],
+  "int_kurtosis": [
+   -1.4370105091640397,
+   -0.566147151859145
+  ],
+  "int_median": [
+   111.0,
+   189.0
+  ],
+  "int_p10": [
+   31.0,
+   91.21000000000004
+  ],
+  "int_p90": [
+   163.0,
+   237.0
+  ],
+  "int_iqr": [
+   72.0,
+   145.0
+  ],
+  "int_entropy": [
+   7.10435287650578,
+   7.76053784303569
+  ],
+  "int_tissue_fraction": [
+   0.4624505615234375,
+   0.51513671875
+  ],
+  "int_bright_fraction": [
+   0.0192236328125,
+   0.2671636962890625
+  ],
+  "hist_bin01": [
+   0.010693590122407226,
+   0.1392056046336717
+  ],
+  "hist_bin02": [
+   0.016286726679312146,
+   0.10669786178436884
+  ],
+  "hist_bin03": [
+   0.018879466768519676,
+   0.07720812755834125
+  ],
+  "hist_bin04": [
+   0.021793347993198417,
+   0.07229277927843099
+  ],
+  "hist_bin05": [
+   0.02954481112151185,
+   0.09072616190866717
+  ],
+  "hist_bin06": [
+   0.03967853656185156,
+   0.1067276582678894
+  ],
+  "hist_bin07": [
+   0.045375930376959285,
+   0.11148631705255402
+  ],
+  "hist_bin08": [
+   0.04588596599786879,
+   0.10370040887491074
+  ],
+  "hist_bin09": [
+   0.05418783690519199,
+   0.11657854492504316
+  ],
+  "hist_bin10": [
+   0.047305668187790514,
+   0.11757646693354087
+  ],
+  "hist_bin11": [
+   0.04244839114021763,
+   0.12167633232560501
+  ],
+  "hist_bin12": [
+   0.0016705721178795659,
+   0.1163456279566427
+  ],
+  "hist_bin13": [
+   0.00024078835549894913,
+   0.1413990408948353
+  ],
+  "hist_bin14": [
+   0.00011941125587933179,
+   0.20436974570175437
+  ],
+  "hist_bin15": [
+   0.0,
+   0.2478429198208785
+  ],
+  "hist_bin16": [
+   0.00011954272545107935,
+   0.04208059400760563
+  ]
+ }
+}

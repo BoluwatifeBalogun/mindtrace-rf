@@ -1,0 +1,177 @@
+{% extends "public.html" %}
+{% block title %}MindTrace NG{% endblock %}
+{% block content %}
+{% set go = url_for('main.scan') if user else url_for('main.signup') %}
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i><i class="beam b3"></i></div>
+  <div class="container">
+    <div class="row gy-5 align-items-center">
+      <div class="col-lg-6">
+        <p class="badge-line rise">{{ flag() }} Made for clinics and classrooms across Nigeria</p>
+        <h1 class="rise" style="--i:1">Find the <mark>pattern</mark> of Alzheimer's in one MRI slice.</h1>
+        <p class="hero-sub rise" style="--i:2">MindTrace NG turns a brain MRI image into {{ M.pipeline.n_features }} measurements of texture and brightness, then a Random Forest classifies it as <b>AD</b> or <b>No AD</b> and shows the probability behind the call.</p>
+        <div class="hero-cta rise" style="--i:3">
+          <a class="btn btn-accent btn-big" href="{{ go }}">{{ 'Start a scan' if user else 'Start free' }} {{ icon('arrow', 18) }}</a>
+          <a class="btn btn-ghost-dark btn-big" href="#method">How it works</a>
+        </div>
+        <ul class="hero-points rise" style="--i:4">
+          <li>{{ icon('check', 16) }} No GPU needed</li>
+          <li>{{ icon('check', 16) }} Results in milliseconds</li>
+          <li>{{ icon('check', 16) }} Not a diagnosis</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="viewer rise" style="--i:2" data-tilt>
+          <div class="viewer-bar"><span class="lights"><i></i><i></i><i></i></span><span class="mono">sample_slice.png · 128 × 128</span><span class="live"><i></i>live</span></div>
+          <div class="viewer-body">
+            <div class="viewer-img">
+              <img src="{{ url_for('static', filename='img/hero-scan.png') }}" width="512" height="512" alt="Axial brain MRI slice used as a sample">
+              <span class="reticle" aria-hidden="true"></span>
+            </div>
+            <dl class="readout">
+              <div><dt>glcm.contrast</dt><dd>{{ hero.contrast|num }}</dd></div>
+              <div><dt>glcm.homogeneity</dt><dd>{{ hero.homog|num }}</dd></div>
+              <div><dt>glcm.energy</dt><dd>{{ hero.energy|num }}</dd></div>
+              <div><dt>glcm.correlation</dt><dd>{{ hero.corr|num }}</dd></div>
+              <div><dt>glcm.entropy</dt><dd>{{ hero.entropy|num }}</dd></div>
+              <div><dt>int.mean</dt><dd>{{ hero.mean|num }}</dd></div>
+              <div><dt>int.std</dt><dd>{{ hero.std|num }}</dd></div>
+              <div class="more"><dt>+ {{ M.pipeline.n_features - 7 }} more features</dt><dd></dd></div>
+            </dl>
+          </div>
+          <div class="viewer-foot">
+            <span>Predicted class <b>{{ "Alzheimer's Disease" if hero.short == 'AD' else "No Alzheimer's Disease" }}</b></span>
+            <span class="mono">p = {{ '%.3f'|format(hero.prob) }} · {{ hero.ms|round|int }} ms</span>
+          </div>
+        </div>
+        <p class="viewer-cap">Real output of the pipeline on a slice from the held-out test set.</p>
+      </div>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      {% for _ in range(2) %}
+      <span>{{ pct(M.test.accuracy) }}% test accuracy</span><i></i><span>{{ pct(M.test.recall) }}% recall on AD</span><i></i><span>ROC-AUC {{ '%.3f'|format(M.test.roc_auc) }}</span><i></i>
+      <span>{{ '{:,}'.format(M.dataset.total) }} MRI slices</span><i></i><span>{{ M.params.n_estimators }} decision trees</span><i></i><span>{{ M.pipeline.n_features }} handcrafted features</span><i></i><span>36 states + FCT</span><i></i>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band" id="method">
+  <div class="container">
+    <header class="band-head">
+      <p class="kicker">Method</p>
+      <h2>A pipeline you can explain line by line.</h2>
+    </header>
+    <ol class="flow">
+      {% set rows = [
+        ('Receive', 'A signed-in user uploads a PNG, JPG or BMP image of a brain MRI slice, with an optional case reference.', 'Flask'),
+        ('Check', 'The file is rejected if it is the wrong type, larger than 8 MB, in colour, blank, or lacks the dark background of an MRI slice.', 'OpenCV'),
+        ('Prepare', 'The image is converted to grayscale, resized to 128 × 128 pixels and stretched to the full 0 to 255 range.', 'OpenCV'),
+        ('Measure', 'Gray-level co-occurrence matrices at 1, 2 and 4 pixels give texture descriptors. Tissue brightness gives intensity statistics.', 'NumPy'),
+        ('Decide', '%d trees each vote. The averaged vote is the class probability, and the larger side is the predicted class.'|format(M.params.n_estimators), 'scikit-learn'),
+        ('Record', 'The class, probability, feature values, date and time are saved to your account for later review.', 'MySQL'),
+      ] %}
+      {% for t, d, tech in rows %}
+      <li class="flow-row rv">
+        <span class="flow-n">{{ '%02d'|format(loop.index) }}</span>
+        <h3>{{ t }}</h3>
+        <p>{{ d }}</p>
+        <span class="tech">{{ tech }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="band band-ink" id="inside">
+  <div class="container">
+    <div class="row gy-5 align-items-center">
+      <div class="col-lg-5">
+        <p class="kicker">Inside a report</p>
+        <h2>The answer, and what it rests on.</h2>
+        <p class="lede">Every report states the class and its probability, then shows where this scan sits against the average AD and No AD scan on the features the forest depends on most.</p>
+        <ul class="ticks">
+          <li>{{ icon('check', 17) }}<span><b>Ranked features</b> from the trained forest, not a brain heatmap</span></li>
+          <li>{{ icon('check', 17) }}<span><b>All {{ M.pipeline.n_features }} values</b> listed for inspection</span></li>
+          <li>{{ icon('check', 17) }}<span><b>Printable</b> and exportable to a spreadsheet</span></li>
+        </ul>
+      </div>
+      <div class="col-lg-6 offset-lg-1">
+        <div class="mock rv">
+          <div class="mock-top"><span class="tag tag-ad">{{ icon('alert', 14) }}AD</span><span class="mono">sample report</span></div>
+          <div class="meter" style="--v:{{ hero.prob_ad }}"><i></i><b></b></div>
+          <div class="meter-scale"><span>No AD</span><span>50%</span><span>AD</span></div>
+          <ul class="mock-rows">
+            {% for f in hero.top %}
+            <li><span>{{ f.label }}</span>
+              <div class="span-bar" style="--a:{{ [f.pos_ad, f.pos_no_ad]|min }}%;--b:{{ [f.pos_ad, f.pos_no_ad]|max }}%;--x:{{ f.pos }}%"><i></i><b></b></div>
+              <span class="mono">{{ f.value|num }}</span></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="evidence">
+  <div class="container">
+    <header class="band-head split">
+      <div><p class="kicker">Evidence</p><h2>Measured on images it never trained on.</h2></div>
+      <a class="btn btn-line" href="{{ url_for('main.performance') }}">Full performance report {{ icon('arrow', 16) }}</a>
+    </header>
+    <div class="scores rv">
+      {% for label, v, d in [('Accuracy', pct(M.test.accuracy), '%'), ('Precision', pct(M.test.precision), '%'), ('Recall', pct(M.test.recall), '%'), ('F1-score', pct(M.test.f1), '%')] %}
+      <div><span>{{ label }}</span><strong><b data-n="{{ v }}">{{ v }}</b>{{ d }}</strong></div>
+      {% endfor %}
+    </div>
+    <p class="fine">{{ M.dataset.split.test }} test slices held back from {{ '{:,}'.format(M.dataset.total) }}. The dataset has no patient identifiers, so real-world accuracy may be lower. See the limitations in the report.</p>
+  </div>
+</section>
+
+<section class="band band-soft" id="reach">
+  <div class="container">
+    <header class="band-head">
+      <p class="kicker">Reach</p>
+      <h2>Six zones. Thirty-six states and the FCT.</h2>
+    </header>
+    <div class="zonebox rv">
+      <div class="zone-tabs" role="tablist" aria-label="Geopolitical zones">
+        {% for z, st in zones.items() %}
+        <button role="tab" id="zt{{ loop.index }}" aria-controls="zp{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}" {% if not loop.first %}tabindex="-1"{% endif %}>{{ z }}<span class="mono">{{ st|length }}</span></button>
+        {% endfor %}
+      </div>
+      {% for z, st in zones.items() %}
+      <div class="zone-panel" role="tabpanel" id="zp{{ loop.index }}" aria-labelledby="zt{{ loop.index }}" {% if not loop.first %}hidden{% endif %}>
+        <ul>{% for s in st %}<li>{{ icon('pin', 15) }}{{ s }}</li>{% endfor %}</ul>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="fine">Each account records its facility and state, so the workspace can show how many scans come from each zone.</p>
+  </div>
+</section>
+
+<section class="band" id="questions">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4"><p class="kicker">Questions</p><h2>Before you upload.</h2></div>
+      <div class="col-lg-8 faq">
+        <details open><summary>Does MindTrace NG diagnose Alzheimer's disease?</summary><p>No. It reports what a statistical model sees in one image. It is an academic prototype for study and decision support, and only a qualified clinician can make a diagnosis.</p></details>
+        <details><summary>What kind of image should I upload?</summary><p>A single grayscale axial slice of a brain MRI, saved as PNG, JPG or BMP, up to 8 MB. Colour photographs and blank images are rejected.</p></details>
+        <details><summary>What was the model trained on?</summary><p>A public set of {{ '{:,}'.format(M.dataset.total) }} labelled MRI slices, half non-demented and half with very mild, mild or moderate dementia. It was split {{ M.dataset.split.train }} / {{ M.dataset.split.validation }} / {{ M.dataset.split.test }} for training, validation and testing.</p></details>
+        <details><summary>Who can see my records?</summary><p>Only you. Records are tied to your account, passwords are stored as hashes, and other users see zone totals only.</p></details>
+        <details><summary>Why a Random Forest and not a deep network?</summary><p>It trains in minutes on a laptop, needs no GPU, and every input it uses is a named measurement that can be listed and ranked.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closer">
+  <div class="container">
+    <h2>Run your first scan in under a minute.</h2>
+    <a class="btn btn-accent btn-big" href="{{ go }}">{{ 'Start a scan' if user else 'Create an account' }} {{ icon('arrow', 18) }}</a>
+  </div>
+</section>
+{% endblock %}

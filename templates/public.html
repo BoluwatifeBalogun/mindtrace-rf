@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body_class %}public{% endblock %}
+{% block shell %}
+<header class="topbar">
+  <div class="container topbar-in">
+    <a href="{{ url_for('main.landing') }}" aria-label="MindTrace NG home">{{ logo(true) }}</a>
+    <nav class="toplinks" id="toplinks" aria-label="Main">
+      <a href="{{ url_for('main.landing') }}#method">Method</a>
+      <a href="{{ url_for('main.landing') }}#evidence">Evidence</a>
+      <a href="{{ url_for('main.landing') }}#reach">Reach</a>
+      <a href="{{ url_for('main.landing') }}#questions">Questions</a>
+      <a href="{{ url_for('main.performance') }}">Performance</a>
+    </nav>
+    <div class="topactions">
+      {% if user %}
+      <a class="btn btn-accent" href="{{ url_for('main.overview') }}">Open workspace {{ icon('arrow', 16) }}</a>
+      {% else %}
+      <a class="btn btn-quiet-dark" href="{{ url_for('main.signin') }}">Sign in</a>
+      <a class="btn btn-accent" href="{{ url_for('main.signup') }}">Sign up</a>
+      {% endif %}
+      <button class="burger" aria-expanded="false" aria-controls="toplinks" aria-label="Menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+<main id="content">{% block content %}{% endblock %}</main>
+<footer class="foot">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-5">{{ logo(true) }}
+        <p>Academic prototype for AI-assisted MRI classification. It supports study and decision support. It is not a replacement for diagnosis by a qualified medical professional.</p></div>
+      <div class="col-6 col-lg-2 offset-lg-1"><h2>System</h2><a href="{{ url_for('main.landing') }}#method">Method</a><a href="{{ url_for('main.performance') }}">Performance</a><a href="{{ url_for('main.landing') }}#questions">Questions</a></div>
+      <div class="col-6 col-lg-2"><h2>Account</h2><a href="{{ url_for('main.signin') }}">Sign in</a><a href="{{ url_for('main.signup') }}">Sign up</a></div>
+      <div class="col-lg-2"><h2>Built at</h2><span>Department of Computer Science, Yaba College of Technology</span></div>
+    </div>
+    <div class="foot-base">{{ flag() }}<span>Serving all 36 states and the FCT</span><span class="mono">GLCM + Random Forest · scikit-learn {{ M.sklearn_version }}</span></div>
+  </div>
+</footer>
+{% endblock %}

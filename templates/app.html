@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body_class %}workspace{% endblock %}
+{% block shell %}
+{% set ep = request.endpoint %}
+{% set nav = [('main.overview', 'home', 'Overview', ['main.overview']), ('main.scan', 'scan', 'New scan', ['main.scan', 'main.report']), ('main.records', 'folder', 'Records', ['main.records']), ('main.performance', 'pulse', 'Performance', ['main.performance'])] %}
+<div class="shell">
+  <aside class="side" aria-label="Workspace">
+    <a class="side-logo" href="{{ url_for('main.landing') }}">{{ logo(true) }}</a>
+    <nav class="side-nav">
+      <span class="side-label">Workspace</span>
+      {% for endpoint, ic, label, active in nav %}
+      <a href="{{ url_for(endpoint) }}" {% if ep in active %}aria-current="page"{% endif %}>{{ icon(ic, 19) }}<span>{{ label }}</span></a>
+      {% endfor %}
+    </nav>
+    <div class="side-user">
+      <div class="side-who"><b>{{ user.initials }}</b><span><strong>{{ user.full_name }}</strong><small>{{ user.role }} · {{ user.state }}</small></span></div>
+      <form method="post" action="{{ url_for('main.signout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="side-out" type="submit">{{ icon('exit', 17) }} Sign out</button>
+      </form>
+    </div>
+  </aside>
+
+  <div class="stage">
+    <header class="mobar">
+      <a href="{{ url_for('main.overview') }}">{{ logo() }}</a>
+      <form method="post" action="{{ url_for('main.signout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="btn btn-line btn-sm" type="submit" aria-label="Sign out">{{ icon('exit', 16) }}</button>
+      </form>
+    </header>
+    <main id="content" class="stage-in">{% block content %}{% endblock %}</main>
+  </div>
+
+  <nav class="tabbar" aria-label="Workspace">
+    {% for endpoint, ic, label, active in nav %}
+    <a href="{{ url_for(endpoint) }}" {% if ep in active %}aria-current="page"{% endif %}>{{ icon(ic, 21) }}<span>{{ label }}</span></a>
+    {% endfor %}
+  </nav>
+</div>
+{% endblock %}

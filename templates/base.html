@@ -1,0 +1,26 @@
+{% from "_ui.html" import icon, logo, flag, cls_tag %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}MindTrace NG{% endblock %} · MRI-based Alzheimer's classification</title>
+  <meta name="description" content="MindTrace NG classifies a brain MRI slice as Alzheimer's Disease or No Alzheimer's Disease using handcrafted texture features and a Random Forest. Academic prototype.">
+  <meta name="theme-color" content="#0B1026">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="icon" href="{{ url_for('static', filename='img/mark.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-reboot.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-grid.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mindtrace.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<a class="skip" href="#content">Skip to content</a>
+{% block shell %}{% endblock %}
+{% with msgs = get_flashed_messages(with_categories=true) %}{% if msgs %}
+<div class="snack-wrap" role="status" aria-live="polite">
+  {% for cat, m in msgs %}<div class="snack">{{ icon('check' if cat == 'success' else 'info', 18) }}<span>{{ m }}</span><button type="button" aria-label="Dismiss">{{ icon('x', 16) }}</button></div>{% endfor %}
+</div>
+{% endif %}{% endwith %}
+<script src="{{ url_for('static', filename='js/mindtrace.js') }}" defer></script>
+</body>
+</html>

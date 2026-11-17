@@ -1,0 +1,54 @@
+{% extends "app.html" %}
+{% block title %}New scan{% endblock %}
+{% block content %}
+<header class="head">
+  <div><p class="crumb">Workspace</p><h1>New scan</h1></div>
+</header>
+{% if error %}<div class="note note-bad" role="alert" id="server-error">{{ icon('alert', 18) }}<span><b>Image not accepted.</b> {{ error }}</span></div>{% endif %}
+<div class="note note-bad" role="alert" id="client-error" hidden>{{ icon('alert', 18) }}<span></span></div>
+
+<form method="post" enctype="multipart/form-data" id="scan-form" class="box scanbox">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <ol class="stepper" aria-label="Steps">
+    <li class="on" data-step="1"><b>1</b>Choose image</li>
+    <li data-step="2"><b>2</b>Add reference</li>
+    <li data-step="3"><b>3</b>Analyse</li>
+  </ol>
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="zone" id="zone">
+        <input type="file" id="mri" name="mri" accept=".png,.jpg,.jpeg,.bmp,image/png,image/jpeg,image/bmp" required aria-label="MRI image file">
+        <div class="zone-empty">
+          {{ icon('upload', 30) }}
+          <strong>Drag an MRI slice here</strong>
+          <span>or click to choose a file</span>
+          <em class="mono">PNG · JPG · BMP · max 8 MB</em>
+        </div>
+        <div class="zone-file" hidden>
+          <img id="thumb" alt="Preview of the selected image">
+          <div><b id="fname"></b><span class="mono" id="fsize"></span><button type="button" class="btn btn-line btn-sm" id="swap">Choose another</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <label class="fld"><span>Case reference <small>optional</small></span>
+        <input id="scan_ref" name="scan_ref" maxlength="60" placeholder="UCH-2231-B"><em class="fld-help">A code that identifies the case. Do not enter a patient's name.</em></label>
+      <button class="btn btn-solid btn-wide btn-big" type="submit" id="go">{{ icon('scan', 19) }} <span>Run analysis</span></button>
+      <ul class="reqs">
+        <li>{{ icon('check', 16) }}Grayscale axial brain slice</li>
+        <li>{{ icon('check', 16) }}At least 64 pixels on the shorter side</li>
+        <li>{{ icon('check', 16) }}Dark background around the head</li>
+      </ul>
+      <p class="fine">{{ icon('info', 15) }} The output is a model estimate for study and decision support. It is not a diagnosis.</p>
+    </div>
+  </div>
+</form>
+
+<div class="busy" id="busy" hidden role="status" aria-live="polite">
+  <div class="busy-card">
+    <h2>Analysing</h2>
+    <div class="bar"><i></i></div>
+    <p id="busy-step" class="mono">Checking the image</p>
+  </div>
+</div>
+{% endblock %}

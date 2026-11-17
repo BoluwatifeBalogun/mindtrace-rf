@@ -1,0 +1,57 @@
+{% extends "app.html" %}
+{% block title %}Records{% endblock %}
+{% block content %}
+<header class="head">
+  <div><p class="crumb">{{ total }} saved prediction{{ '' if total == 1 else 's' }}</p><h1>Records</h1></div>
+  <div class="head-btns">
+    <a class="btn btn-line" href="{{ url_for('main.records_csv') }}" download>{{ icon('download', 17) }} Export CSV</a>
+    <a class="btn btn-solid" href="{{ url_for('main.scan') }}">{{ icon('plus', 18) }} New scan</a>
+  </div>
+</header>
+
+<form class="toolbar" method="get">
+  <label class="find">{{ icon('search', 18) }}<span class="sr">Search by reference or file name</span><input name="q" value="{{ q }}" placeholder="Search reference or file name"></label>
+  <label class="pick"><span class="sr">Filter by class</span>
+    <select name="show" data-autosubmit>
+      <option value="all" {{ 'selected' if show == 'all' }}>All classes</option>
+      <option value="ad" {{ 'selected' if show == 'ad' }}>AD only</option>
+      <option value="no-ad" {{ 'selected' if show == 'no-ad' }}>No AD only</option>
+    </select></label>
+  <button class="btn btn-line" type="submit">Apply</button>
+</form>
+
+{% if rows %}
+<div class="cards">
+  {% for p in rows %}
+  <article class="rec {{ 'rec-ad' if p.is_ad else 'rec-clear' }}">
+    <a class="rec-img" href="{{ url_for('main.report', pid=p.id) }}" aria-label="Open report {{ p.id }}"><img src="{{ url_for('main.scan_image', pid=p.id) }}" alt="" width="128" height="128" loading="lazy"></a>
+    <div class="rec-body">
+      <div class="rec-top">{{ cls_tag(p.is_ad) }}<span class="mono">{{ pct(p.probability) }}%</span></div>
+      <h2>{{ p.image.scan_ref or 'No reference' }}</h2>
+      <p class="rec-file">{{ p.image.original_name }}</p>
+      <p class="rec-when">{{ icon('clock', 14) }}{{ p.created_at|when }} · {{ p.processing_ms|round|int }} ms</p>
+      <div class="rec-act">
+        <a class="btn btn-line btn-sm" href="{{ url_for('main.report', pid=p.id) }}">Open report</a>
+        <form method="post" action="{{ url_for('main.delete', pid=p.id) }}" data-confirm="Delete this record? This cannot be undone.">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <button class="btn btn-icon" type="submit" aria-label="Delete record {{ p.id }}">{{ icon('trash', 17) }}</button>
+        </form>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% if pages > 1 %}
+<nav class="pages" aria-label="Pages">
+  {% if page > 1 %}<a class="btn btn-line btn-sm" href="{{ url_for('main.records', show=show, q=q, page=page - 1) }}">Newer</a>{% endif %}
+  <span class="mono">{{ page }} / {{ pages }}</span>
+  {% if page < pages %}<a class="btn btn-line btn-sm" href="{{ url_for('main.records', show=show, q=q, page=page + 1) }}">Older</a>{% endif %}
+</nav>
+{% endif %}
+{% else %}
+{% set filtered = q or show != 'all' %}
+<div class="box"><div class="blank">{{ icon('folder', 30) }}<h3>{{ 'No records match' if filtered else 'No records yet' }}</h3>
+  <p>{{ 'Change the search or the class filter.' if filtered else 'Every scan you run is saved here automatically.' }}</p>
+  <a class="btn btn-line" href="{{ url_for('main.records') if filtered else url_for('main.scan') }}">{{ 'Reset filters' if filtered else 'Run a scan' }}</a></div></div>
+{% endif %}
+{% endblock %}

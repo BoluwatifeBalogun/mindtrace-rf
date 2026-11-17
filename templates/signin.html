@@ -1,0 +1,21 @@
+{% extends "public.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="gate">
+  <div class="gate-card">
+    <p class="kicker">Authorised access</p>
+    <h1>Sign in to your workspace</h1>
+    <p class="sub">Upload MRI slices and review your saved records.</p>
+    {% if error %}<div class="note note-bad" role="alert">{{ icon('alert', 18) }}<span>{{ error }}</span></div>{% endif %}
+    <form method="post" novalidate data-busy>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label class="fld"><span>Username</span>
+        <input name="username" autocomplete="username" required autofocus value="{{ request.form.get('username', '') }}"></label>
+      <label class="fld"><span>Password</span>
+        <input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn btn-solid btn-wide" type="submit"><span>Sign in</span> {{ icon('right', 17) }}</button>
+    </form>
+    <p class="gate-alt">New here? <a href="{{ url_for('main.signup') }}">Create an account</a></p>
+  </div>
+</section>
+{% endblock %}

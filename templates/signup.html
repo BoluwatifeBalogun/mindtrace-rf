@@ -1,0 +1,44 @@
+{% extends "public.html" %}
+{% block title %}Sign up{% endblock %}
+{% macro err(k) %}{% if errors.get(k) %}<em class="fld-err" role="alert">{{ errors[k] }}</em>{% endif %}{% endmacro %}
+{% block content %}
+<section class="gate">
+  <div class="gate-card gate-wide">
+    <p class="kicker">New account</p>
+    <h1>Set up your workspace</h1>
+    <p class="sub">Tell us where you work so your scans count towards your zone. Patient names are never requested.</p>
+    {% if errors %}<div class="note note-bad" role="alert">{{ icon('alert', 18) }}<span>Some fields need attention.</span></div>{% endif %}
+    <form method="post" novalidate data-busy>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <fieldset><legend>You</legend>
+        <div class="row g-3">
+          <div class="col-sm-6"><label class="fld {{ 'bad' if errors.get('full_name') }}"><span>Full name</span>
+            <input name="full_name" autocomplete="name" required value="{{ form.get('full_name', '') }}">{{ err('full_name') }}</label></div>
+          <div class="col-sm-6"><label class="fld {{ 'bad' if errors.get('role') }}"><span>Role</span>
+            <select name="role" required><option value="">Choose</option>{% for r in roles %}<option {{ 'selected' if form.get('role') == r }}>{{ r }}</option>{% endfor %}</select>{{ err('role') }}</label></div>
+        </div>
+      </fieldset>
+      <fieldset><legend>Your facility</legend>
+        <div class="row g-3">
+          <div class="col-sm-7"><label class="fld {{ 'bad' if errors.get('facility') }}"><span>Hospital, clinic or institution</span>
+            <input name="facility" autocomplete="organization" required value="{{ form.get('facility', '') }}">{{ err('facility') }}</label></div>
+          <div class="col-sm-5"><label class="fld {{ 'bad' if errors.get('state') }}"><span>State</span>
+            <select name="state" required><option value="">Choose</option>{% for s in states %}<option {{ 'selected' if form.get('state') == s }}>{{ s }}</option>{% endfor %}</select>{{ err('state') }}</label></div>
+        </div>
+      </fieldset>
+      <fieldset><legend>Sign-in details</legend>
+        <div class="row g-3">
+          <div class="col-12"><label class="fld {{ 'bad' if errors.get('username') }}"><span>Username</span>
+            <input name="username" autocomplete="username" required value="{{ form.get('username', '') }}">{{ err('username') }}</label></div>
+          <div class="col-sm-6"><label class="fld {{ 'bad' if errors.get('password') }}"><span>Password <small>8 characters or more</small></span>
+            <input name="password" type="password" autocomplete="new-password" required minlength="8">{{ err('password') }}</label></div>
+          <div class="col-sm-6"><label class="fld {{ 'bad' if errors.get('confirm') }}"><span>Repeat password</span>
+            <input name="confirm" type="password" autocomplete="new-password" required>{{ err('confirm') }}</label></div>
+        </div>
+      </fieldset>
+      <button class="btn btn-solid btn-wide" type="submit"><span>Create account</span> {{ icon('right', 17) }}</button>
+    </form>
+    <p class="gate-alt">Have an account? <a href="{{ url_for('main.signin') }}">Sign in</a></p>
+  </div>
+</section>
+{% endblock %}

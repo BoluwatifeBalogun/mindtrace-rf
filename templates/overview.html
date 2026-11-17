@@ -1,0 +1,71 @@
+{% extends "app.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<header class="head">
+  <div><p class="crumb">{{ user.facility }} · {{ user.state }}</p><h1>Overview</h1></div>
+  <a class="btn btn-solid" href="{{ url_for('main.scan') }}">{{ icon('plus', 18) }} New scan</a>
+</header>
+
+<div class="kpis">
+  <div class="kpi k1"><span>Total scans</span><strong data-n="{{ total }}">{{ total }}</strong></div>
+  <div class="kpi k2"><span>Classified AD</span><strong data-n="{{ ad }}">{{ ad }}</strong></div>
+  <div class="kpi k3"><span>Classified No AD</span><strong data-n="{{ no_ad }}">{{ no_ad }}</strong></div>
+  <div class="kpi k4"><span>Mean processing time</span><strong>{% if avg_ms %}<b data-n="{{ avg_ms|round|int }}">{{ avg_ms|round|int }}</b><small>ms</small>{% else %}<small>none yet</small>{% endif %}</strong></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-xl-8">
+    <section class="box">
+      <header class="box-head"><h2>Latest records</h2>{% if recent %}<a href="{{ url_for('main.records') }}">View all</a>{% endif %}</header>
+      {% if recent %}
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Scan</th><th>Class</th><th class="num">Probability</th><th>Analysed</th></tr></thead>
+        <tbody>{% for p in recent %}
+          <tr data-href="{{ url_for('main.report', pid=p.id) }}">
+            <td><a class="cellscan" href="{{ url_for('main.report', pid=p.id) }}"><img src="{{ url_for('main.scan_image', pid=p.id) }}" alt="" width="40" height="40" loading="lazy"><span>{{ p.image.scan_ref or p.image.original_name }}</span></a></td>
+            <td>{{ cls_tag(p.is_ad) }}</td>
+            <td class="num mono">{{ pct(p.probability) }}%</td>
+            <td class="dim">{{ p.created_at|when }}</td>
+          </tr>{% endfor %}</tbody>
+      </table></div>
+      {% else %}
+      <div class="blank">{{ icon('scan', 30) }}<h3>Your workspace is empty</h3><p>Run a scan to see its class, probability and the features behind it.</p><a class="btn btn-line" href="{{ url_for('main.scan') }}">Upload an MRI slice</a></div>
+      {% endif %}
+    </section>
+
+    <section class="box">
+      <header class="box-head"><h2>Scans by geopolitical zone</h2><span class="mono dim">{{ national }} nationwide</span></header>
+      <div class="heat">
+        {% for z, n in by_zone.items() %}
+        <div class="heat-cell {{ 'me' if z == my_zone }}" style="--k:{{ (n / zone_max)|round(2) }}">
+          <span>{{ z }}</span><strong>{{ n }}</strong>{% if z == my_zone %}<em>Your zone</em>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <p class="fine">Totals across all accounts, grouped by the state of the submitting facility. Individual records stay private.</p>
+    </section>
+  </div>
+
+  <div class="col-xl-4">
+    <section class="box">
+      <header class="box-head"><h2>Class mix</h2></header>
+      {% if total %}
+      <div class="donut-row">
+        <div class="donut" style="--p:{{ (ad / total * 100)|round(1) }}" role="img" aria-label="{{ ad }} AD and {{ no_ad }} No AD"><span><b>{{ (ad / total * 100)|round|int }}%</b>AD</span></div>
+        <ul class="keys"><li><i class="sw sw-ad"></i>AD<b>{{ ad }}</b></li><li><i class="sw sw-clear"></i>No AD<b>{{ no_ad }}</b></li></ul>
+      </div>
+      {% else %}<p class="dim">Appears after your first scan.</p>{% endif %}
+    </section>
+    <section class="box box-ink">
+      <header class="box-head"><h2>Model on test data</h2><a href="{{ url_for('main.performance') }}">Details</a></header>
+      <dl class="pairs">
+        <div><dt>Accuracy</dt><dd>{{ pct(M.test.accuracy) }}%</dd></div>
+        <div><dt>Precision</dt><dd>{{ pct(M.test.precision) }}%</dd></div>
+        <div><dt>Recall</dt><dd>{{ pct(M.test.recall) }}%</dd></div>
+        <div><dt>F1-score</dt><dd>{{ pct(M.test.f1) }}%</dd></div>
+        <div><dt>ROC-AUC</dt><dd>{{ '%.3f'|format(M.test.roc_auc) }}</dd></div>
+      </dl>
+    </section>
+  </div>
+</div>
+{% endblock %}

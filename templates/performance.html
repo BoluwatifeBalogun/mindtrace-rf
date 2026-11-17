@@ -1,0 +1,96 @@
+{% extends ("app.html" if user else "public.html") %}
+{% block title %}Performance{% endblock %}
+{% block content %}
+{% set t = M.test %}{% set c = t.confusion %}{% set n = M.dataset.split.test %}
+<div class="{{ '' if user else 'container perf-public' }}">
+<header class="head">
+  <div><p class="crumb">Reserved test set · {{ n }} images</p><h1>Model performance</h1></div>
+  <span class="chipline mono">RandomForestClassifier · {{ M.params.n_estimators }} trees · {{ M.pipeline.n_features }} features</span>
+</header>
+
+<div class="board">
+  {% for label, v, unit, note in [
+    ('Accuracy', pct(t.accuracy), '%', '(TP + TN) / all'),
+    ('Precision', pct(t.precision), '%', 'TP / (TP + FP)'),
+    ('Recall', pct(t.recall), '%', 'TP / (TP + FN)'),
+    ('F1-score', pct(t.f1), '%', 'harmonic mean of P and R'),
+    ('Specificity', pct(t.specificity), '%', 'TN / (TN + FP)'),
+    ('ROC-AUC', '%.3f'|format(t.roc_auc), '', 'area under ROC')] %}
+  <div><span>{{ label }}</span><strong><b data-n="{{ v }}">{{ v }}</b>{{ unit }}</strong><small class="mono">{{ note }}</small></div>
+  {% endfor %}
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-5">
+    <section class="box">
+      <header class="box-head"><h2>Confusion matrix</h2></header>
+      <table class="matrix">
+        <thead><tr><td></td><th scope="col">Predicted AD</th><th scope="col">Predicted No AD</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Actual AD</th><td class="hit" style="--k:{{ c.tp / (c.tp + c.fn) }}"><b>{{ c.tp }}</b><span>TP</span></td><td class="miss" style="--k:{{ c.fn / (c.tp + c.fn) }}"><b>{{ c.fn }}</b><span>FN</span></td></tr>
+          <tr><th scope="row">Actual No AD</th><td class="miss" style="--k:{{ c.fp / (c.tn + c.fp) }}"><b>{{ c.fp }}</b><span>FP</span></td><td class="hit" style="--k:{{ c.tn / (c.tn + c.fp) }}"><b>{{ c.tn }}</b><span>TN</span></td></tr>
+        </tbody>
+      </table>
+      <p class="fine">{{ c.fn }} of {{ c.tp + c.fn }} AD slices were missed and {{ c.fp }} of {{ c.tn + c.fp }} No AD slices were flagged. The model favours catching AD over avoiding false alarms.</p>
+    </section>
+    <section class="box">
+      <header class="box-head"><h2>Accuracy by stage</h2></header>
+      <ul class="stages">
+        {% for s in M.by_stage %}
+        <li><span>{{ s.stage }}</span><div class="pbar"><i style="--w:{{ (s.correct / s.n * 100)|round(1) }}%"></i></div><b class="mono">{{ (s.correct / s.n * 100)|round|int }}%</b><small class="mono">{{ s.correct }}/{{ s.n }}</small></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+  <div class="col-lg-7">
+    <section class="box">
+      <header class="box-head"><h2>ROC curve</h2><span class="mono dim">AUC {{ '%.3f'|format(t.roc_auc) }}</span></header>
+      <svg class="roc" viewBox="0 0 320 300" role="img" aria-label="ROC curve, area under the curve {{ '%.3f'|format(t.roc_auc) }}">
+        {% for i in range(6) %}<line class="g" x1="30" x2="290" y1="{{ 10 + i * 52 }}" y2="{{ 10 + i * 52 }}"/><line class="g" y1="10" y2="270" x1="{{ 30 + i * 52 }}" x2="{{ 30 + i * 52 }}"/><text x="24" y="{{ 273 - i * 52 }}" text-anchor="end">{{ '%.1f'|format(i * 0.2) }}</text><text x="{{ 30 + i * 52 }}" y="284" text-anchor="middle">{{ '%.1f'|format(i * 0.2) }}</text>{% endfor %}
+        <line class="chance" x1="30" y1="270" x2="290" y2="10"/>
+        <polyline class="curve" points="{{ roc_points }}" pathLength="100"/>
+        <text x="160" y="298" text-anchor="middle" class="ax">False positive rate</text>
+        <text x="8" y="140" text-anchor="middle" transform="rotate(-90 8 140)" class="ax">True positive rate</text>
+      </svg>
+    </section>
+  </div>
+
+  <div class="col-12">
+    <section class="box">
+      <header class="box-head"><div><h2>Feature importance, top 12</h2><p class="dim">Intensity features hold {{ pct(M.group_importance['Intensity'], 0) }}% of total importance and GLCM texture features {{ pct(M.group_importance['GLCM texture'], 0) }}%.</p></div>
+        <ul class="keys inline"><li><i class="sw sw-int"></i>Intensity</li><li><i class="sw sw-tex"></i>GLCM texture</li></ul></header>
+      <div class="cols">
+        {% for f in M.feature_importance[:12] %}
+        <div class="col-bar"><div class="col-track"><i class="{{ 'tex' if f.group == 'GLCM texture' else 'int' }}" style="--h:{{ (f.importance / M.feature_importance[0].importance * 100)|round(1) }}%"><b class="mono">{{ '%.1f'|format(f.importance * 100) }}</b></i></div><span>{{ f.label }}</span></div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+
+  <div class="col-lg-6">
+    <section class="box">
+      <header class="box-head"><h2>Training set-up</h2></header>
+      <dl class="facts">
+        <div><dt>Dataset</dt><dd class="mono">{{ '{:,}'.format(M.dataset.total) }} slices · {{ M.dataset.ad }} AD · {{ M.dataset.no_ad }} No AD</dd></div>
+        <div><dt>Split (train / val / test)</dt><dd class="mono">{{ M.dataset.split.train }} / {{ M.dataset.split.validation }} / {{ M.dataset.split.test }}</dd></div>
+        <div><dt>Image preparation</dt><dd class="mono">grayscale · {{ M.pipeline.image_size }} × {{ M.pipeline.image_size }} · min-max</dd></div>
+        <div><dt>GLCM</dt><dd class="mono">{{ M.pipeline.gray_levels }} levels · d = {{ M.pipeline.distances|join(', ') }} · 4 angles</dd></div>
+        <div><dt>Trees / max features</dt><dd class="mono">{{ M.params.n_estimators }} / {{ M.params.max_features }}</dd></div>
+        <div><dt>5-fold CV accuracy</dt><dd class="mono">{{ pct(M.cv.mean) }}% ± {{ pct(M.cv.std) }}</dd></div>
+        <div><dt>Train / validation accuracy</dt><dd class="mono">{{ pct(M.train_accuracy) }}% / {{ pct(M.validation.accuracy) }}%</dd></div>
+      </dl>
+    </section>
+  </div>
+  <div class="col-lg-6">
+    <section class="box box-warn">
+      <header class="box-head"><h2>Known limitations</h2></header>
+      <ol class="limits">
+        <li><b>No patient identifiers.</b> Slices from one person may appear in both training and test sets, so accuracy in practice is likely lower than reported.</li>
+        <li><b>Overfitting gap.</b> Training accuracy is {{ pct(M.train_accuracy, 0) }}% against {{ pct(t.accuracy) }}% on unseen images. Quote the test result.</li>
+        <li><b>Single 2D slice.</b> No 3D volume, no clinical history, and no validation on scans from Nigerian hospitals.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+</div>
+{% endblock %}
